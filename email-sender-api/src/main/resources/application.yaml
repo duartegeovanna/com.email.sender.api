@@ -1,0 +1,42 @@
+server:
+  servlet:
+    contextPath: /api
+  port: ${SERVER_PORT:8080}
+
+springdoc:
+  swagger-ui:
+    title: Email Sender API
+    description: This API sends emails using the Mail Sender service.
+    disable-swagger-default-url: true
+    configUrl: ${SWAGGER_CONFIG_URL:/api/v3/api-docs/swagger-config}
+    url: ${SWAGGER_URL:/api/v3/api-docs}
+    apiUrl: ${SWAGGER_API_URL:http://localhost:8080/api}
+    operationsSorter: alpha
+    tagsSorter: alpha
+
+spring:
+  application:
+    name: com.email.sender.api
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
+  cloud:
+    config:
+      enabled: false
+    import-check:
+      enabled: false
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
+    protocol: smtp
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    url:
+      recovery: ${RECOVERY_URL:http://localhost:8070/swagger-ui/index.html#/Upload/uploadFile}
