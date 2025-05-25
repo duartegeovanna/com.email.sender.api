@@ -9,7 +9,7 @@ ENV JAR_NAME=email.sender.api*.jar
 COPY pom.xml ./
 
 COPY . .
-RUN mv ./$PROJECT_NAME/target/$JAR_NAME ./application.jar
+RUN mv ./email-sender-api/target/email.sender.api*.jar ./application.jar
 
 FROM amazoncorretto:21-alpine3.18-jdk as runner
 RUN apk update
