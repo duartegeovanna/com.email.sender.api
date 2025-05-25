@@ -1,9 +1,22 @@
-FROM eclipse-temurin:21-jdk-alpine
+FROM amazoncorretto:21-alpine3.18-jdk as build
+WORKDIR /build
+RUN apk update
+RUN apk add maven
 
-WORKDIR /app
+ENV PROJECT_NAME=email-sender-api
+ENV JAR_NAME=email.sender.api*.jar
 
-COPY target/email.sender.api*.jar app.jar
+COPY pom.xml ./
+
+COPY . .
+RUN mv ./$PROJECT_NAME/target/$JAR_NAME ./application.jar
+
+FROM amazoncorretto:21-alpine3.18-jdk as runner
+RUN apk update
+RUN apk --no-cache add curl
 
 EXPOSE 8080
+WORKDIR /app
+COPY --from=build /build/application.jar ./application.jar
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+CMD [ "java", "-jar", "application.jar"]
