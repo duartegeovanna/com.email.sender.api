@@ -6,7 +6,7 @@ COPY pom.xml ./
 
 COPY . .
 
-COPY ./email-sender-api/target/email.sender.api*.jar app.jar
+COPY email-sender-api/target/*.jar app.jar
 
 EXPOSE 8080
 
